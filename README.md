@@ -1,4 +1,4 @@
-# quickshare
+# QuickShare
 
 ## Project setup
 ```
