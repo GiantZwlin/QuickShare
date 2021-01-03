@@ -8,24 +8,56 @@
       <v-col cols="12" md="2">
       </v-col>
     </v-row>
-    <v-spacer></v-spacer>
-    <v-row>
-      <v-col>
-        <v-btn
-            class="ma-3"
-            fab
-            large
-            dark
-            color="indigo"
-            right
-            fixed
-            bottom
-        >
-          <v-icon dark>
-            mdi-plus
-          </v-icon>
-        </v-btn>
-      </v-col>
+    <v-row justify="center">
+      <v-dialog
+          v-model="dialog"
+          max-width="800px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+              class="ma-5"
+              elevation="2"
+              color="primary"
+              dark
+              fab
+              fixed
+              large
+              bottom
+              right
+              v-bind="attrs"
+              v-on="on"
+              icon
+          >
+            <v-icon>
+              mdi-plus
+            </v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>Create Gist</v-card-title>
+          <v-divider></v-divider>
+          <v-card-text style="height: 200px;">
+            abcdefghijklmnopqrstuvwxyz
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-btn
+                color="blue darken-1"
+                text
+                @click="dialog = false"
+            >
+              Close
+            </v-btn>
+            <v-btn
+                color="blue darken-1"
+                text
+                @click="dialog = false"
+            >
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-row>
   </v-container>
 </template>
@@ -38,13 +70,18 @@ export default {
   components: {Gist},
   data:function (){
     return{
-      Gists:[]
+      Gists:[],
+      dialog:false
     }
   },
   mounted: function (){
     this.Gists = [
       {title:"1",text:"Hello"},
       {title:"2",text:"你好"},
+      {title:"3",text:"阔你几哇"},
+      {title:"3",text:"阔你几哇"},
+      {title:"3",text:"阔你几哇"},
+      {title:"3",text:"阔你几哇"},
       {title:"3",text:"阔你几哇"},
     ]
   }
