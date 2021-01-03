@@ -2,34 +2,40 @@
   <v-card
       class="mx-auto"
       outlined
-      elevation="1"
+      elevation="2"
   >
     <v-card-title>
-      Gist
+      {{title}}
     </v-card-title>
     <v-card-text>
-      https://vuetifyjs.com/zh-Hans/components/cards/#section-75284f8b
+      {{text}}
     </v-card-text>
     <v-card-actions>
-      <v-btn
-          outlined
-          text
-      >
-        Copy
-      </v-btn>
-      <v-btn
-          outlined
-          text
-      >
-        Delete
-      </v-btn>
+      <v-spacer></v-spacer>
+        <v-btn
+            elevation="1"
+        >
+          <v-icon left>
+            mdi-content-copy
+          </v-icon>
+          Copy
+        </v-btn>
+        <v-btn
+            elevation="1"
+        >
+          <v-icon left>
+            mdi-delete
+          </v-icon>
+          Delete
+        </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 export default {
-  name: "Gist"
+  name: "Gist",
+  props:["title","text"]
 }
 </script>
 
