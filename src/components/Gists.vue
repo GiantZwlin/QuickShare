@@ -73,13 +73,12 @@ export default {
       Gists: [],
       dialog: false,
       newGistText: "",
-      baseurl: "http://localhost:1323"
     }
   },
   mounted: function () {
     //TODO:API
     const axios = require("axios")
-    axios.get(this.baseurl + "/gists")
+    axios.get("/gists")
         .then(response => this.Gists = response.data)
 
   },
@@ -96,7 +95,7 @@ export default {
 
       const axios = require("axios")
 
-      axios.delete(this.baseurl+'/gists/'+id)
+      axios.delete('/gists/'+id)
 
       this.Gists.splice(index, 1)
     },
@@ -114,7 +113,7 @@ export default {
       let g = {}
       let vm = this
       const axios = require("axios")
-      axios.post(this.baseurl + "/gists", gist).then(function (res) {
+      axios.post( "/gists", gist).then(function (res) {
         g = res.data
         vm.Gists.push(
             g
