@@ -14,14 +14,17 @@
       <v-spacer></v-spacer>
         <v-btn
             elevation="1"
+            v-clipboard:copy="text"
+            v-clipboard:success="onCopy"
         >
           <v-icon left>
             mdi-content-copy
           </v-icon>
-          Copy
+          {{copyBtn}}
         </v-btn>
         <v-btn
             elevation="1"
+            v-on:click="$emit('deleteGist',title)"
         >
           <v-icon left>
             mdi-delete
@@ -35,7 +38,17 @@
 <script>
 export default {
   name: "Gist",
-  props:["title","text"]
+  props:["title","text"],
+  data: function(){
+    return {
+      copyBtn:"Copy"
+    }
+  },
+  methods:{
+    onCopy:function () {
+      this.copyBtn = "Copied"
+    },
+  }
 }
 </script>
 

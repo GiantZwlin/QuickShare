@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <v-container >
     <v-row v-for="(gist,id) in Gists" :key="id">
       <v-col cols="12" md="2"></v-col>
       <v-col>
-        <Gist :title="gist.title" :text="gist.text"></Gist>
+        <Gist :title="gist.title" :text="gist.text" v-on:deleteGist="deleteGist($event)"></Gist>
       </v-col>
       <v-col cols="12" md="2">
       </v-col>
@@ -36,10 +36,10 @@
         <v-card>
           <v-card-title>Create Gist</v-card-title>
           <v-divider></v-divider>
-          <v-card-text style="height: 200px;">
-            abcdefghijklmnopqrstuvwxyz
+          <v-card-text>
+            <v-textarea v-model="newGistText" auto-grow>
+            </v-textarea>
           </v-card-text>
-          <v-divider></v-divider>
           <v-card-actions>
             <v-btn
                 color="blue darken-1"
@@ -51,7 +51,7 @@
             <v-btn
                 color="blue darken-1"
                 text
-                @click="dialog = false"
+                @click="dialogSave"
             >
               Save
             </v-btn>
@@ -68,22 +68,50 @@ import Gist from "@/components/Gist";
 export default {
   name: "Gists",
   components: {Gist},
-  data:function (){
-    return{
-      Gists:[],
-      dialog:false
+  data: function () {
+    return {
+      Gists: [],
+      dialog: false,
+      newGistText: "abc"
     }
   },
-  mounted: function (){
+  mounted: function () {
+    //TODO:API
     this.Gists = [
-      {title:"1",text:"Hello"},
-      {title:"2",text:"你好"},
-      {title:"3",text:"阔你几哇"},
-      {title:"3",text:"阔你几哇"},
-      {title:"3",text:"阔你几哇"},
-      {title:"3",text:"阔你几哇"},
-      {title:"3",text:"阔你几哇"},
+      {title: "1", text: "Hello"},
+      {title: "2", text: "你好"},
+      {title: "3", text: "阔你几哇"}
     ]
+  },
+  methods: {
+    deleteGist: function(title){
+      let index = -1
+      for (let i =0;i<this.Gists.length;i++){
+        if (this.Gists[i].title===title){
+              index = i;
+              break
+        }
+      }
+      this.Gists.splice(index,1)
+      // TODO:API
+    },
+    dialogSave: function () {
+      this.dialog = false
+      let myDate = new Date()
+      let createDate = myDate.toLocaleDateString()
+      let createTime = myDate.toLocaleTimeString()
+
+      let gist = {
+        title: createDate + " " + createTime,
+        text: this.newGistText
+      }
+
+      this.Gists.unshift(
+          gist
+      )
+      //TODO:API
+      this.newGistText = ""
+    }
   }
 }
 </script>
