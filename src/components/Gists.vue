@@ -1,9 +1,9 @@
 <template>
-  <v-container >
-    <v-row v-for="(gist,id) in Gists" :key="id">
+  <v-container>
+    <v-row v-for="(gist,id) in reverseGist()" :key="id">
       <v-col cols="12" md="2"></v-col>
       <v-col>
-        <Gist :title="gist.title" :text="gist.text" v-on:deleteGist="deleteGist($event)"></Gist>
+        <Gist :ID="gist.ID" :title="gist.title" :text="gist.text" v-on:deleteGist="deleteGist($event)"></Gist>
       </v-col>
       <v-col cols="12" md="2">
       </v-col>
@@ -72,28 +72,33 @@ export default {
     return {
       Gists: [],
       dialog: false,
-      newGistText: "abc"
+      newGistText: "",
+      baseurl: "http://localhost:1323"
     }
   },
   mounted: function () {
     //TODO:API
-    this.Gists = [
-      {title: "1", text: "Hello"},
-      {title: "2", text: "你好"},
-      {title: "3", text: "阔你几哇"}
-    ]
+    const axios = require("axios")
+    axios.get(this.baseurl + "/gists")
+        .then(response => this.Gists = response.data)
+
   },
   methods: {
-    deleteGist: function(title){
+    deleteGist: function (id) {
       let index = -1
-      for (let i =0;i<this.Gists.length;i++){
-        if (this.Gists[i].title===title){
-              index = i;
-              break
+      for (let i = 0; i < this.Gists.length; i++) {
+        if (this.Gists[i].ID === id) {
+          index = i;
+          break
         }
       }
-      this.Gists.splice(index,1)
-      // TODO:API
+      id = this.Gists[index].ID
+
+      const axios = require("axios")
+
+      axios.delete(this.baseurl+'/gists/'+id)
+
+      this.Gists.splice(index, 1)
     },
     dialogSave: function () {
       this.dialog = false
@@ -106,11 +111,23 @@ export default {
         text: this.newGistText
       }
 
-      this.Gists.unshift(
-          gist
-      )
-      //TODO:API
+      let g = {}
+      let vm = this
+      const axios = require("axios")
+      axios.post(this.baseurl + "/gists", gist).then(function (res) {
+        g = res.data
+        vm.Gists.push(
+            g
+        )
+      })
+
       this.newGistText = ""
+    },
+
+    reverseGist: function () {
+      let r = [...this.Gists]
+      r.reverse()
+      return r
     }
   }
 }

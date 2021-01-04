@@ -24,7 +24,7 @@
         </v-btn>
         <v-btn
             elevation="1"
-            v-on:click="$emit('deleteGist',title)"
+            v-on:click="$emit('deleteGist',ID)"
         >
           <v-icon left>
             mdi-delete
@@ -38,7 +38,7 @@
 <script>
 export default {
   name: "Gist",
-  props:["title","text"],
+  props:["title","text","ID"],
   data: function(){
     return {
       copyBtn:"Copy"
