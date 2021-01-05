@@ -1,7 +1,6 @@
 FROM node:latest AS frontend
 WORKDIR /app
-RUN git clone https://github.com/GiantZwlin/QuickShare
-WORKDIR /app/QuickShare
+COPY . .
 RUN yarn install
 RUN yarn build
 
@@ -14,7 +13,7 @@ RUN go build
 
 FROM ubuntu:latest
 WORKDIR /app
-COPY --from=frontend /app/QuickShare/dist ./dist
+COPY --from=frontend /app/dist ./dist
 COPY --from=backend /app/quickshareserver/quickshare .
 EXPOSE 80
 CMD ["./quickshare"]
